@@ -4,4 +4,4 @@
 
 ## Objetivo
 
->El objetivo del Trabajo Fin de Master es aprovechar las bondades del Machine Learning en sistemas de suscripcion digitales, para predecir aquellos usuarios que tienen una mayor propensión de mejora de producto que ya disfrutan, es decir, pasar de un producto mensual a un producto anual de coste superior. 
+> Modelo predictivo con Machine Learning en sistemas de suscripción digitales, para identificar aquellos usuarios que tienen una mayor propensión de mejora de producto que ya disfrutan, es decir, pasar de un producto mensual a un producto anual.
