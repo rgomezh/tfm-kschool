@@ -20,7 +20,7 @@ class Users(object):
         
     
     def set_data(self,separator_fields=','):
-        self.users = pd.read_csv(self.users_file, sep=separator_fields)
+        self.users = pd.read_csv(self.users_file, sep=separator_fields, dtype = {'edad' : 'object'})
 
     def clean_data(self):
         self.users.dropna(subset=['id_gigya'], how='all', inplace=True)
@@ -35,13 +35,13 @@ class Users(object):
         del self.users['cookie']         
         del self.users['tipo_login']                 
         
-        encoder = OneHotEncoder(handle_unknown='ignore')        
-#         for field in ['genero', 'tipo_navega', 'tipo_dispositivo']:
-        for field in ['genero']:            
-            fieldEncoded = encoder.fit_transform(self.users[field].values.reshape(-1,1))
-            df_fieldEncoded = pd.DataFrame(fieldEncoded.todense(), columns=encoder.categories_[0])
-            self.users = self.users.join(df_fieldEncoded)
-            del self.users[field]  
+#         encoder = OneHotEncoder(handle_unknown='ignore')        
+# #         for field in ['genero', 'tipo_navega', 'tipo_dispositivo']:
+#         for field in ['genero']:            
+#             fieldEncoded = encoder.fit_transform(self.users[field].values.reshape(-1,1))
+#             df_fieldEncoded = pd.DataFrame(fieldEncoded.todense(), columns=encoder.categories_[0])
+#             self.users = self.users.join(df_fieldEncoded)
+#             del self.users[field]  
                        
     
     def view_data(self):
