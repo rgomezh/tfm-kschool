@@ -15,7 +15,8 @@ class Subscriptions(object):
     def __init__(self, data_root, subscriptions_file='suscripciones.csv'):    
         self.data_root = data_root
         self.subscriptions_file = os.path.join(self.data_root, subscriptions_file)
-        self.subscriptions = None;
+        self.subscriptions = None
+        self.mensual_subscriptions = None
         
     def set_data(self):
         self.subscriptions = pd.read_csv(self.subscriptions_file, parse_dates = ['fecha_creacion', 'fecha_modificacion', 'fecha_inicio', 'fecha_fin'], 
@@ -42,7 +43,13 @@ class Subscriptions(object):
         self.subscriptions['transicion'] = False
         self.subscriptions['transicion'] = self.subscriptions['id_suscripcion_final'].apply(lambda x: True if pd.notnull(x) else False)
         
-        
+    
+    def extract_mensual_suscriptions(self):
+#        self.mensual_subscriptions = self.subscriptions[self.subscriptions['periodicidad'] == 'Mensual'][['cod_local', 'fecha_inicio', 'fecha_fin']]
+        self.mensual_subscriptions = self.subscriptions[self.subscriptions['periodicidad'] == 'Mensual'][['cod_local']]        
+        return self.mensual_subscriptions
+    
+    
     def view_data(self):
         pass
     

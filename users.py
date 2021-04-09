@@ -19,21 +19,25 @@ class Users(object):
         self.users = None;        
         
     
-    def set_data(self):
-        self.users = pd.read_csv(self.users_file)
+    def set_data(self,separator_fields=','):
+        self.users = pd.read_csv(self.users_file, sep=separator_fields)
 
     def clean_data(self):
+        self.users.dropna(subset=['id_gigya'], how='all', inplace=True)
         self.users = self.users[~self.users['tipo_login'].isin(['trial','periodista'])]
         self.users.loc[:,'genero'] = self.users['genero'].apply(lambda x: 'u' if pd.isna(x) 
                                                           else 'm' if (x == 'masculino') 
                                                           else 'f' if (x == 'femenino') 
+                                                          else 'u' if (x == 'undefined')                                                                 
                                                           else x)
         self.users.reset_index(drop=True, inplace=True)
         del self.users['usuario'] 
         del self.users['cookie']         
+        del self.users['tipo_login']                 
         
         encoder = OneHotEncoder(handle_unknown='ignore')        
-        for field in ['genero', 'tipo_login', 'tipo_navega', 'tipo_dispositivo']:
+#         for field in ['genero', 'tipo_navega', 'tipo_dispositivo']:
+        for field in ['genero']:            
             fieldEncoded = encoder.fit_transform(self.users[field].values.reshape(-1,1))
             df_fieldEncoded = pd.DataFrame(fieldEncoded.todense(), columns=encoder.categories_[0])
             self.users = self.users.join(df_fieldEncoded)
